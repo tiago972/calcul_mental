@@ -32,6 +32,11 @@ export function byLevel<T>(level: Level, table: readonly [T, T, T, T, T]): T {
   return table[level - 1]
 }
 
+/** Insère l'étape de raccourci seulement lorsqu'un raccourci existe. */
+export function maybe(step: Phrase | null): Phrase[] {
+  return step ? [step] : []
+}
+
 export const REL = (pct: number): Tolerance => ({ kind: 'rel', pct })
 export const ABS = (delta: number): Tolerance => ({ kind: 'abs', delta })
 export const EXACT = (d: number): Tolerance => ({ kind: 'exact', d })

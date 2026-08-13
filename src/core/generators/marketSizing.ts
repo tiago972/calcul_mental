@@ -1,5 +1,6 @@
 import { businessNumber, count, money, pct, percentLike, plain, roundSig, SCALE_FACTOR } from '../numbers'
-import { asAnswer, build, byLevel, REL } from './kit'
+import { multiplyTrick } from '../tricks'
+import { asAnswer, build, byLevel, maybe, REL } from './kit'
 import type { ExerciseType, Level, Rng } from '../types'
 
 type Cfg = {
@@ -64,6 +65,7 @@ export const marketSizing: ExerciseType = {
             volume: count(roundSig(volume / 1e6, 3), 'M'),
           },
         },
+        ...maybe(multiplyTrick(price, roundSig(volume / 1e6, 3))),
         {
           key: 'q.marketSizing.s3',
           vars: {

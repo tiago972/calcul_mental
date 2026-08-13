@@ -167,6 +167,7 @@ export const en: Record<Key, string> = {
   'q.marketShare.s2': 'How many times does {anchor} fit into {client}? {mult} times',
   'q.marketShare.s3': 'That many points of market share: {result}',
 
+  'q.percentOf.direct': '{p} of {n} = {result}',
   'q.percentOf.s1': '10% of {n} = {anchor}',
   'q.percentOf.s2': '{p} is {mult} times 10%',
   'q.percentOf.s3': '{anchor} × {mult} = {result}',
@@ -212,5 +213,27 @@ export const en: Record<Key, string> = {
   'q.marketSizing.s1': 'Population concerned: {pop} × {share} = {users}',
   'q.marketSizing.s2': 'Annual volume: {users} × {freq} = {volume}',
   'q.marketSizing.s3': 'Value: {volume} × {price} ≈ {result}',
+
+  // — Mental-arithmetic shortcuts ———————————————————————————————
+  'trick.mult.5': 'Shortcut: ×{f} is ×{x} then halve',
+  'trick.mult.9': 'Shortcut: ×{f} is ×{x} minus ×{u}',
+  'trick.mult.11': 'Shortcut: ×{f} is ×{x} plus ×{u}',
+  'trick.mult.12': 'Shortcut: ×{f} is ×{x} plus ×{u}',
+  'trick.mult.15': 'Shortcut: ×{f} is ×{x} plus half of ×{x}',
+  'trick.mult.25': 'Shortcut: ×{f} is ×{x} then divide by 4',
+  'trick.div.2': 'Shortcut: dividing by {d} is halving',
+  'trick.div.4': 'Shortcut: dividing by {d} is halving twice',
+  'trick.div.5': 'Shortcut: dividing by {d} is ×2 then divide by {x}',
+  'trick.div.25': 'Shortcut: dividing by {d} is ×4 then divide by {x}',
+  'trick.pct.5': 'Shortcut: 5% is half of 10%',
+  'trick.pct.15': 'Shortcut: 15% is 10% plus half of it',
+  'trick.pct.eighth': 'Shortcut: 12.5% is an eighth — halve three times',
+  'trick.pct.fifth': 'Shortcut: 20% is a fifth — divide by 10 then ×2',
+  'trick.pct.quarter': 'Shortcut: 25% is a quarter — halve twice',
+  'trick.pct.half': 'Shortcut: 50% is half',
+  'trick.pct.threeQuarters': 'Shortcut: 75% is the whole minus a quarter',
+  'trick.pct.90': 'Shortcut: 90% is the whole minus 10%',
+  'trick.pct.95': 'Shortcut: 95% is the whole minus 5%',
+
 
 }

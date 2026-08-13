@@ -1,5 +1,6 @@
 import { businessNumber, count, money, plain, roundSig, SCALE_FACTOR } from '../numbers'
-import { asAnswer, build, byLevel, REL } from './kit'
+import { divideTrick } from '../tricks'
+import { asAnswer, build, byLevel, maybe, REL } from './kit'
 import type { ExerciseType, Level, Rng, Scale } from '../types'
 
 type Cfg = {
@@ -48,6 +49,7 @@ export const perUnit: ExerciseType = {
             den: plain(cust),
           },
         },
+        ...maybe(divideTrick(cust)),
         {
           key: 'q.perUnit.s2',
           vars: {

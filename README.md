@@ -101,6 +101,20 @@ rattrapage pour les produits. Certaines étapes s'adaptent : le produit ne dit
 « arrondir » que de ce qui a réellement bougé, le TCAM situe le rapport par
 rapport à un doublement.
 
+Quand les nombres tirés s'y prêtent, une étape supplémentaire propose un
+**raccourci de calcul mental reconnu** : ×5 c'est ×10 puis la moitié, ×9 c'est
+×10 moins ×1, ×25 c'est ×100 divisé par 4, 25 % c'est deux moitiés de suite,
+diviser par 5 c'est ×2 puis /10… `src/core/tricks.ts` les détecte sur la
+mantisse, à toute échelle : 5, 50 et 500 déclenchent le même raccourci.
+
+Seules des identités exactes sont proposées : 33 % n'est pas un tiers, donc
+aucun raccourci ne l'annonce. Un test parcourt tous les diviseurs et facteurs
+jusqu'à 5 000 et vérifie que chaque décomposition annoncée redonne bien le
+nombre d'origine — un raccourci faux apprendrait une erreur.
+
+Pour les pourcentages, raccourci et ancrage sur 10 % s'excluent : proposer les
+deux reviendrait à conseiller deux choses à la fois.
+
 **Les générateurs ne produisent pas de texte.** Ils renvoient une clé i18n et des
 valeurs typées (`Num`) ; le rendu — séparateurs, unités, `840 M€` contre
 `€840M` — se fait dans `src/ui/format.ts`. C'est ce qui rend le bilinguisme

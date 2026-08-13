@@ -165,6 +165,7 @@ export const fr = {
   'q.marketShare.s2': 'Combien de fois {anchor} tient dans {client} ? {mult} fois',
   'q.marketShare.s3': 'Autant de points de part de marché : {result}',
 
+  'q.percentOf.direct': '{p} de {n} = {result}',
   'q.percentOf.s1': '10 % de {n} = {anchor}',
   'q.percentOf.s2': '{p}, c’est {mult} fois 10 %',
   'q.percentOf.s3': '{anchor} × {mult} = {result}',
@@ -210,6 +211,28 @@ export const fr = {
   'q.marketSizing.s1': 'Population concernée : {pop} × {share} = {users}',
   'q.marketSizing.s2': 'Volume annuel : {users} × {freq} = {volume}',
   'q.marketSizing.s3': 'Valeur : {volume} × {price} ≈ {result}',
+
+  // — Raccourcis de calcul mental ————————————————————————————————
+  'trick.mult.5': 'Raccourci : ×{f}, c’est ×{x} puis la moitié',
+  'trick.mult.9': 'Raccourci : ×{f}, c’est ×{x} moins ×{u}',
+  'trick.mult.11': 'Raccourci : ×{f}, c’est ×{x} plus ×{u}',
+  'trick.mult.12': 'Raccourci : ×{f}, c’est ×{x} plus ×{u}',
+  'trick.mult.15': 'Raccourci : ×{f}, c’est ×{x} plus la moitié de ×{x}',
+  'trick.mult.25': 'Raccourci : ×{f}, c’est ×{x} puis diviser par 4',
+  'trick.div.2': 'Raccourci : diviser par {d}, c’est prendre la moitié',
+  'trick.div.4': 'Raccourci : diviser par {d}, c’est deux moitiés de suite',
+  'trick.div.5': 'Raccourci : diviser par {d}, c’est ×2 puis diviser par {x}',
+  'trick.div.25': 'Raccourci : diviser par {d}, c’est ×4 puis diviser par {x}',
+  'trick.pct.5': 'Raccourci : 5 %, c’est la moitié de 10 %',
+  'trick.pct.15': 'Raccourci : 15 %, c’est 10 % plus sa moitié',
+  'trick.pct.eighth': 'Raccourci : 12,5 %, c’est un huitième — trois moitiés de suite',
+  'trick.pct.fifth': 'Raccourci : 20 %, c’est un cinquième — diviser par 10 puis ×2',
+  'trick.pct.quarter': 'Raccourci : 25 %, c’est le quart — deux moitiés de suite',
+  'trick.pct.half': 'Raccourci : 50 %, c’est la moitié',
+  'trick.pct.threeQuarters': 'Raccourci : 75 %, c’est le tout moins le quart',
+  'trick.pct.90': 'Raccourci : 90 %, c’est le tout moins 10 %',
+  'trick.pct.95': 'Raccourci : 95 %, c’est le tout moins 5 %',
+
 
 } as const
 

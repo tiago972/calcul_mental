@@ -1,5 +1,6 @@
 import { businessNumber, plain, roundSig, SCALE_FACTOR } from '../numbers'
-import { asAnswer, build, byLevel, REL } from './kit'
+import { multiplyTrick } from '../tricks'
+import { asAnswer, build, byLevel, maybe, REL } from './kit'
 import type { ExerciseType, Level, Rng } from '../types'
 
 type Cfg = { a: [number, number, number]; b: [number, number, number] }
@@ -56,6 +57,7 @@ export const magnitudeProduct: ExerciseType = {
           key: `q.magnitudeProduct.${cleS1}`,
           vars: { a: plain(a), b: plain(b), a1: plain(a1), b1: plain(b1) },
         },
+        ...maybe(multiplyTrick(a1, b1)),
         calcul,
         // Sans arrondi, le calcul est déjà la réponse : pas d'étape de rattrapage.
         ...(bougeA || bougeB

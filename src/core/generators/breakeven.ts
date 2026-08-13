@@ -1,5 +1,6 @@
 import { businessNumber, count, money, percentLike, plain, roundSig, SCALE_FACTOR } from '../numbers'
-import { asAnswer, build, byLevel, REL } from './kit'
+import { divideTrick } from '../tricks'
+import { asAnswer, build, byLevel, maybe, REL } from './kit'
 import type { ExerciseType, Level, Rng } from '../types'
 
 type Cfg = {
@@ -38,6 +39,7 @@ export const breakeven: ExerciseType = {
       steps: [
         { key: 'q.breakeven.s1', vars: { fixedK: plain(roundSig(fixed * 1000, 4), 'k') } },
         { key: 'q.breakeven.s2', vars: { um: money(um) } },
+        ...maybe(divideTrick(um)),
         {
           key: 'q.breakeven.s3',
           vars: {
