@@ -5,6 +5,7 @@ import { t } from '@/i18n'
 import { useApp } from '@/store/useApp'
 import { formatSeconds } from '../format'
 import type { Attempt } from '@/core/types'
+import { PressButton } from '../components/PressButton'
 
 export function Summary({ attempts, onHome }: { attempts: Attempt[]; onHome: () => void }) {
   const { state } = useApp()
@@ -71,9 +72,9 @@ export function Summary({ attempts, onHome }: { attempts: Attempt[]; onHome: () 
       </section>
 
       <div className="mt-auto pb-6 pt-10">
-        <button className="btn" onClick={onHome}>
+        <PressButton className="btn" onActivate={onHome}>
           {t('summary.home', lang)}
-        </button>
+        </PressButton>
       </div>
     </div>
   )

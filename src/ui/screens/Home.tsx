@@ -1,6 +1,7 @@
 import { dayKey, streak } from '@/core/stats'
 import { t } from '@/i18n'
 import { useApp } from '@/store/useApp'
+import { PressButton } from '../components/PressButton'
 
 export function Home({ onStart, onStats, onSettings }: {
   onStart: () => void
@@ -30,17 +31,17 @@ export function Home({ onStart, onStats, onSettings }: {
       </div>
 
       <div className="pb-6">
-        <button className="btn" onClick={onStart}>
+        <PressButton className="btn" onActivate={onStart}>
           {t('home.start', lang)}
-        </button>
+        </PressButton>
         <p className="mt-3 text-center text-xs text-muted">{t('home.duration', lang)}</p>
         <div className="mt-6 flex gap-3">
-          <button className="btn-ghost" onClick={onStats}>
+          <PressButton className="btn-ghost" onActivate={onStats}>
             {t('home.stats', lang)}
-          </button>
-          <button className="btn-ghost" onClick={onSettings}>
+          </PressButton>
+          <PressButton className="btn-ghost" onActivate={onSettings}>
             {t('home.settings', lang)}
-          </button>
+          </PressButton>
         </div>
       </div>
     </div>

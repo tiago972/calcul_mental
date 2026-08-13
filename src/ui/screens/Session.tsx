@@ -10,6 +10,7 @@ import { answerHintKey, formatAnswer, formatNum, formatSeconds } from '../format
 import { putClip, startRecording } from '@/audio/recorder'
 import type { Recorder } from '@/audio/recorder'
 import type { Attempt, Question } from '@/core/types'
+import { PressButton } from '../components/PressButton'
 
 const SPEAK_MS = 3000
 
@@ -167,9 +168,9 @@ export function Session({ onDone }: { onDone: (attempts: Attempt[]) => void }) {
           {secondsLeft(phase.until, now, PAUSE_MS)}
         </div>
         <p className="mt-6 text-center text-sm text-muted">{t('session.pause.hint', lang)}</p>
-        <button className="tap mt-10 px-4 text-sm text-accent" onClick={startNextBlock}>
+        <PressButton className="tap mt-10 px-4 text-sm text-accent" onActivate={startNextBlock}>
           {t('session.pause.skip', lang)}
-        </button>
+        </PressButton>
       </div>
     )
   }
@@ -184,9 +185,9 @@ export function Session({ onDone }: { onDone: (attempts: Attempt[]) => void }) {
       <BlockBar leftMs={Math.max(0, blockEndsAt - now)} totalMs={BLOCK_MS} />
 
       <header className="flex items-center justify-between px-5 pt-3 text-xs text-muted">
-        <button onClick={() => stop(attempts)} className="tap -mx-2 px-2 text-muted">
+        <PressButton onActivate={() => stop(attempts)} className="tap -mx-2 px-2 text-muted">
           {t('session.quit', lang)}
-        </button>
+        </PressButton>
         <span>{t('session.block', lang, { n: block + 1, total: BLOCKS })}</span>
         <BlockTimer leftMs={Math.max(0, blockEndsAt - now)} />
       </header>
@@ -254,10 +255,9 @@ function Feedback({ res, onNext }: { res: Result; onNext: () => void }) {
     /* Un vrai <button> et non un <div onClick> : iOS ne fait pas remonter les
        clics depuis un élément non interactif, le tap pour passer à la question
        suivante y était purement et simplement perdu. */
-    <button
-      type="button"
+    <PressButton
       className="flex min-h-0 w-full flex-1 flex-col justify-center overflow-y-auto px-5 text-left"
-      onClick={onNext}
+      onActivate={onNext}
     >
       <div className={`text-sm font-medium ${res.ok && !res.late ? 'text-accent' : 'text-ink'}`}>
         {t(verdict, lang)}
@@ -291,6 +291,6 @@ function Feedback({ res, onNext }: { res: Result; onNext: () => void }) {
       </p>
 
       <p className="mt-8 text-xs text-muted">{t('feedback.next', lang)}</p>
-    </button>
+    </PressButton>
   )
 }

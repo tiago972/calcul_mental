@@ -6,6 +6,7 @@ import { parseState, serialize } from '@/store/schema'
 import { useApp } from '@/store/useApp'
 import { Sparkline } from '../components/Sparkline'
 import { formatSeconds } from '../format'
+import { PressButton } from '../components/PressButton'
 
 export function Stats({ onBack }: { onBack: () => void }) {
   const { state, dispatch } = useApp()
@@ -51,9 +52,9 @@ export function Stats({ onBack }: { onBack: () => void }) {
     <div className="mx-auto screen max-w-md px-5 pb-10 safe-t safe-b">
       <header className="flex items-center justify-between pt-6">
         <h1 className="text-sm text-muted">{t('stats.title', lang)}</h1>
-        <button className="tap -mx-2 px-2 text-sm text-accent" onClick={onBack}>
+        <PressButton className="tap -mx-2 px-2 text-sm text-accent" onActivate={onBack}>
           {t('settings.back', lang)}
-        </button>
+        </PressButton>
       </header>
 
       <div className="mt-8 flex items-baseline gap-3">
@@ -119,12 +120,12 @@ export function Stats({ onBack }: { onBack: () => void }) {
       )}
 
       <section className="mt-12 space-y-3">
-        <button className="btn-ghost" onClick={exportJson}>
+        <PressButton className="btn-ghost" onActivate={exportJson}>
           {t('stats.export', lang)}
-        </button>
-        <button className="btn-ghost" onClick={() => fileRef.current?.click()}>
+        </PressButton>
+        <PressButton className="btn-ghost" onActivate={() => fileRef.current?.click()}>
           {t('stats.import', lang)}
-        </button>
+        </PressButton>
         <input
           ref={fileRef}
           type="file"
@@ -141,9 +142,9 @@ export function Stats({ onBack }: { onBack: () => void }) {
 
       {/* Seule action destructive de l'application : séparée du reste, et confirmée. */}
       <section className="mt-10 border-t border-hair pt-6">
-        <button className="btn-ghost" onClick={resetAll}>
+        <PressButton className="btn-ghost" onActivate={resetAll}>
           {t('stats.reset', lang)}
-        </button>
+        </PressButton>
         <p className="mt-2 text-center text-xs text-muted">{t('stats.reset.help', lang)}</p>
       </section>
     </div>

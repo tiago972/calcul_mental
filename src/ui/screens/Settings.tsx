@@ -5,6 +5,7 @@ import { t } from '@/i18n'
 import { useApp } from '@/store/useApp'
 import type { Clip } from '@/audio/recorder'
 import type { Lang } from '@/core/types'
+import { PressButton } from '../components/PressButton'
 
 const TARGETS = [15_000, 20_000, 30_000, 45_000]
 
@@ -26,10 +27,10 @@ function Toggle({ on, onChange }: { on: boolean; onChange: (v: boolean) => void 
        est réelle plutôt qu'étendue par un pseudo-élément, que l'empilement des
        rangées suivantes recouvrait par en dessous. La marge négative rend au
        voisinage la hauteur que le bouton prend en trop. */
-    <button
+    <PressButton
       role="switch"
       aria-checked={on}
-      onClick={() => onChange(!on)}
+      onActivate={() => onChange(!on)}
       className="tap -my-2 shrink-0"
     >
       <span
@@ -43,7 +44,7 @@ function Toggle({ on, onChange }: { on: boolean; onChange: (v: boolean) => void 
           }`}
         />
       </span>
-    </button>
+    </PressButton>
   )
 }
 
@@ -61,24 +62,24 @@ export function Settings({ onBack }: { onBack: () => void }) {
     <div className="mx-auto screen max-w-md px-5 pb-10 safe-t safe-b">
       <header className="flex items-center justify-between pt-6">
         <h1 className="text-sm text-muted">{t('settings.title', lang)}</h1>
-        <button className="tap -mx-2 px-2 text-sm text-accent" onClick={onBack}>
+        <PressButton className="tap -mx-2 px-2 text-sm text-accent" onActivate={onBack}>
           {t('settings.back', lang)}
-        </button>
+        </PressButton>
       </header>
 
       <div className="mt-6">
         <Row label={t('settings.lang', lang)}>
           <div className="flex gap-2">
             {(['fr', 'en'] as Lang[]).map((l) => (
-              <button
+              <PressButton
                 key={l}
-                onClick={() => dispatch({ type: 'settings', patch: { lang: l } })}
+                onActivate={() => dispatch({ type: 'settings', patch: { lang: l } })}
                 className={`tap rounded-lg px-3.5 text-sm ${
                   l === lang ? 'bg-accent text-white' : 'border border-hair text-muted'
                 }`}
               >
                 {l.toUpperCase()}
-              </button>
+              </PressButton>
             ))}
           </div>
         </Row>
@@ -86,15 +87,15 @@ export function Settings({ onBack }: { onBack: () => void }) {
         <Row label={t('settings.target', lang)}>
           <div className="flex gap-2">
             {TARGETS.map((ms) => (
-              <button
+              <PressButton
                 key={ms}
-                onClick={() => dispatch({ type: 'settings', patch: { targetMs: ms } })}
+                onActivate={() => dispatch({ type: 'settings', patch: { targetMs: ms } })}
                 className={`tap whitespace-nowrap rounded-lg px-3 text-sm ${
                   ms === s.targetMs ? 'bg-accent text-white' : 'border border-hair text-muted'
                 }`}
               >
                 {ms / 1000}s
-              </button>
+              </PressButton>
             ))}
           </div>
         </Row>
@@ -102,15 +103,15 @@ export function Settings({ onBack }: { onBack: () => void }) {
         <Row label={t('settings.feedback', lang)}>
           <div className="flex gap-2">
             {FEEDBACK_CHOICES.map((ms) => (
-              <button
+              <PressButton
                 key={ms}
-                onClick={() => dispatch({ type: 'settings', patch: { feedbackMs: ms } })}
+                onActivate={() => dispatch({ type: 'settings', patch: { feedbackMs: ms } })}
                 className={`tap whitespace-nowrap rounded-lg px-3 text-sm ${
                   ms === s.feedbackMs ? 'bg-accent text-white' : 'border border-hair text-muted'
                 }`}
               >
                 {ms === 0 ? t('settings.feedback.manual', lang) : `${ms / 1000}s`}
-              </button>
+              </PressButton>
             ))}
           </div>
         </Row>
@@ -152,12 +153,12 @@ export function Settings({ onBack }: { onBack: () => void }) {
                   </li>
                 ))}
               </ul>
-              <button
+              <PressButton
                 className="mt-4 w-full py-3 text-sm text-muted"
-                onClick={() => clearClips().then(() => setClips([]))}
+                onActivate={() => clearClips().then(() => setClips([]))}
               >
                 {t('settings.recordings.clear', lang)}
-              </button>
+              </PressButton>
             </>
           )}
         </section>

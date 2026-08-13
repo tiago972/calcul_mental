@@ -57,6 +57,22 @@ Toutes les commandes font au moins 44 pt, la cible minimale d'Apple. Là où le
 dessin est plus fin, comme les interrupteurs, c'est le bouton qui fait 44 pt et
 la marge négative rend la hauteur au voisinage.
 
+Tous les boutons d'action passent par `PressButton`. Relevé sur un vrai iOS
+pour un appui qui dérive de quelques dizaines de pixels :
+
+    pointerdown · touchstart · pointermove · touchmove · pointermove ·
+    pointercancel · touchmove · touchend
+
+Ni `pointerup`, ni `click` : dès qu'il soupçonne un balayage, iOS annule le
+pointeur. Les événements **tactiles**, eux, vont jusqu'au bout — c'est donc
+`touchend` qui fait foi au doigt, et les événements pointeur seulement à la
+souris. Un déplacement de plus de 40 px est un balayage, pas un appui : faire
+défiler une liste depuis un bouton ne le déclenche pas.
+
+Se rabattre sur la dernière position vue en `pointermove` ne suffisait pas : sur
+un balayage franc, iOS annule le pointeur avant d'en délivrer un seul, le
+déplacement paraissait nul et un défilement activait le bouton sous le doigt.
+
 Le pavé numérique et « Valider » se déclenchent à la **pose** du doigt
 (`pointerdown`), pas au relâchement : iOS annule le clic dès que le doigt
 glisse un peu entre les deux, ce qui est systématique debout dans les

@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import type React from 'react'
 import type { Lang, NumStyle } from '@/core/types'
+import { PressButton } from './PressButton'
 
 const DECIMAL: Record<Lang, string> = { fr: ',', en: '.' }
 
@@ -104,9 +105,9 @@ export function Keypad(p: KeypadProps) {
         </button>
       </div>
 
-      <button type="button" className="mt-2 w-full py-4 text-sm text-muted" onClick={p.onSkip}>
+      <PressButton className="mt-2 w-full py-4 text-sm text-muted" onActivate={p.onSkip}>
         {p.skipLabel}
-      </button>
+      </PressButton>
     </div>
   )
 }
