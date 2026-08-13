@@ -66,7 +66,9 @@ export const fr = {
   'stats.importOk': 'Historique importé.',
   'stats.importFail': 'Fichier illisible : rien n’a été modifié.',
   'stats.reset': 'Tout effacer',
+  'stats.reset.help': 'Séries, temps, niveaux et enregistrements. Les réglages sont conservés.',
   'stats.resetConfirm': 'Effacer définitivement tout l’historique ?',
+  'stats.resetDone': 'Historique effacé.',
 
   // — Réglages ————————————————————————————————————————————————
   'settings.title': 'Réglages',

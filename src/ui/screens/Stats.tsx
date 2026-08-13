@@ -1,4 +1,5 @@
 import { useMemo, useRef, useState } from 'react'
+import { clearClips } from '@/audio/recorder'
 import { byType, dayKey, streak } from '@/core/stats'
 import { t } from '@/i18n'
 import { parseState, serialize } from '@/store/schema'
@@ -25,6 +26,14 @@ export function Stats({ onBack }: { onBack: () => void }) {
     a.download = `calcul-mental-${dayKey(Date.now())}.json`
     a.click()
     URL.revokeObjectURL(url)
+  }
+
+  /** « Tout effacer » doit aussi vider les enregistrements : ils sont dans IndexedDB. */
+  const resetAll = async () => {
+    if (!confirm(t('stats.resetConfirm', lang))) return
+    await clearClips()
+    dispatch({ type: 'reset' })
+    setNote(t('stats.resetDone', lang))
   }
 
   const importJson = async (file: File) => {
@@ -127,15 +136,15 @@ export function Stats({ onBack }: { onBack: () => void }) {
             e.target.value = ''
           }}
         />
-        <button
-          className="w-full py-3 text-center text-sm text-muted"
-          onClick={() => {
-            if (confirm(t('stats.resetConfirm', lang))) dispatch({ type: 'reset' })
-          }}
-        >
+        {note && <p className="text-center text-xs text-muted">{note}</p>}
+      </section>
+
+      {/* Seule action destructive de l'application : séparée du reste, et confirmée. */}
+      <section className="mt-10 border-t border-hair pt-6">
+        <button className="btn-ghost" onClick={resetAll}>
           {t('stats.reset', lang)}
         </button>
-        {note && <p className="text-center text-xs text-muted">{note}</p>}
+        <p className="mt-2 text-center text-xs text-muted">{t('stats.reset.help', lang)}</p>
       </section>
     </div>
   )

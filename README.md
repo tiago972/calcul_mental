@@ -119,6 +119,11 @@ Clé `cm:v1` dans `localStorage` : réglages, niveaux par type, tentatives
 depuis l'écran Statistiques ; une entrée illisible retombe champ par champ sur
 les valeurs par défaut plutôt que d'empêcher l'application de démarrer.
 
+« Tout effacer », en bas de l'écran Statistiques, remet à zéro l'historique,
+les niveaux atteints et les enregistrements audio — les réglages sont
+conservés. C'est la seule action destructive de l'application : elle est isolée
+du reste de l'écran et demande confirmation.
+
 Les enregistrements audio du mode verbalisation vont dans IndexedDB
 (`localStorage` ne stocke que du texte), trente au maximum, purgés par les plus
 anciens, jamais envoyés nulle part.

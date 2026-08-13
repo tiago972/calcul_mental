@@ -98,12 +98,20 @@ describe('réducteur', () => {
     expect(s.sessions).toHaveLength(2)
   })
 
-  it('la remise à zéro garde les réglages', () => {
+  it('la remise à zéro efface tout l’historique mais garde les réglages', () => {
     let s = defaultState()
     s = reducer(s, { type: 'settings', patch: { lang: 'en', targetMs: 30_000 } })
-    s = reducer(s, { type: 'record', attempt: attempt() })
+    s = reducer(s, { type: 'record', attempt: attempt({ ms: 5_000 }) })
+    s = reducer(s, { type: 'record', attempt: attempt({ ms: 5_000 }) })
+    s = reducer(s, { type: 'endSession', ts: Date.now(), n: 2, medianMs: 5_000, rate: 1 })
+    expect(s.days.length).toBe(1)
+
     s = reducer(s, { type: 'reset' })
     expect(s.attempts).toHaveLength(0)
+    expect(s.days).toHaveLength(0)
+    expect(s.sessions).toHaveLength(0)
+    // Les niveaux atteints repartent aussi de 1 : c'est bien une remise à zéro.
+    for (const id of TYPE_IDS) expect(s.levels[id]).toEqual({ level: 1, goodStreak: 0, failStreak: 0 })
     expect(s.settings.lang).toBe('en')
     expect(s.settings.targetMs).toBe(30_000)
   })

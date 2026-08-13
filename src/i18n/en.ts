@@ -68,7 +68,9 @@ export const en: Record<Key, string> = {
   'stats.importOk': 'History imported.',
   'stats.importFail': 'Unreadable file: nothing was changed.',
   'stats.reset': 'Erase everything',
+  'stats.reset.help': 'Streak, times, levels and recordings. Settings are kept.',
   'stats.resetConfirm': 'Permanently erase all history?',
+  'stats.resetDone': 'History erased.',
 
   // — Settings ————————————————————————————————————————————————
   'settings.title': 'Settings',
