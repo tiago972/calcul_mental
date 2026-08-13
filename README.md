@@ -93,6 +93,14 @@ src/audio/        MediaRecorder + IndexedDB, jamais de réseau
 src/tests/        Vitest, sur core/ store/ et la saisie
 ```
 
+Après réponse, la correction montre le **raisonnement décomposé** en deux à
+quatre étapes, pas seulement le résultat : c'est la technique qu'on veut
+installer. Chaque type a la sienne — ancrage sur 1 % pour les parts de marché,
+sur 10 % pour les pourcentages, règle de 72 pour les taux annuels, arrondi puis
+rattrapage pour les produits. Certaines étapes s'adaptent : le produit ne dit
+« arrondir » que de ce qui a réellement bougé, le TCAM situe le rapport par
+rapport à un doublement.
+
 **Les générateurs ne produisent pas de texte.** Ils renvoient une clé i18n et des
 valeurs typées (`Num`) ; le rendu — séparateurs, unités, `840 M€` contre
 `€840M` — se fait dans `src/ui/format.ts`. C'est ce qui rend le bilinguisme
@@ -122,7 +130,10 @@ export const discount: ExerciseType = {
       typeId: 'discount',
       level,
       prompt: { key: 'q.discount.prompt', vars: { price: money(price), off: pct(off) } },
-      path: { key: 'q.discount.path', vars: { off: pct(off), result: money(roundSig(exact, 3)) } },
+          steps: [
+        { key: 'q.discount.s1', vars: { price: money(price), off: pct(off) } },
+        { key: 'q.discount.s2', vars: { result: money(roundSig(exact, 3)) } },
+      ],
       exact,
       answer: { style: 'money', scale: 'unit' },
       tolerance: REL(2),
@@ -133,7 +144,8 @@ export const discount: ExerciseType = {
 
 Puis : `'discount'` dans `TYPE_IDS` (`src/core/types.ts`), `discount` dans
 `TYPES` (`src/core/generators/index.ts`), et `type.discount`,
-`q.discount.prompt`, `q.discount.path` dans `src/i18n/fr.ts` et `en.ts`.
+`q.discount.prompt` et ses étapes `q.discount.s1`, `q.discount.s2` dans
+`src/i18n/fr.ts` et `en.ts`.
 
 La suite de tests traite le registre en boucle : le nouveau type est
 automatiquement vérifié sur ses plages, sa tolérance, ses clés manquantes et son

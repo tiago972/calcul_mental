@@ -272,9 +272,19 @@ function Feedback({ res, onNext }: { res: Result; onNext: () => void }) {
         </span>
       </div>
 
-      <p className="mt-5 border-l-2 border-accent-line pl-3 font-num text-sm leading-relaxed text-muted">
-        {tPhrase(q.path, lang)}
-      </p>
+      <ol className="mt-5 space-y-2 border-l-2 border-accent-line pl-3">
+        {q.steps.map((step, i) => (
+          <li
+            key={step.key}
+            /* La dernière étape conclut : c'est elle qu'on relit d'un coup d'œil. */
+            className={`text-sm leading-relaxed tabular-nums ${
+              i === q.steps.length - 1 ? 'text-ink' : 'text-muted'
+            }`}
+          >
+            {tPhrase(step, lang)}
+          </li>
+        ))}
+      </ol>
 
       <p className="mt-5 text-sm text-muted">
         {t('feedback.time', lang)} {formatSeconds(res.ms, lang)}

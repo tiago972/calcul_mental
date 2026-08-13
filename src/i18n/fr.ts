@@ -28,7 +28,7 @@ export const fr = {
   'feedback.skipped': 'Passée',
   'feedback.expected': 'Réponse attendue',
   'feedback.exact': 'Valeur exacte',
-  'feedback.path': 'Chemin',
+  'feedback.path': 'Raisonnement',
   'feedback.time': 'Temps',
   'feedback.next': 'Toucher pour continuer',
 
@@ -121,54 +121,96 @@ export const fr = {
 
   // — Énoncés et chemins de calcul ——————————————————————————————
   'q.magnitudeProduct.prompt': '{a} × {b}',
-  'q.magnitudeProduct.path': '{a} × {b} ≈ {a1} × {b1} = {approx}, ajusté ≈ {result}',
 
   'q.marketShare.prompt':
     'Sur un marché de {market}, le client réalise {client}. Quelle part de marché ?',
-  'q.marketShare.path': '1 % de {market} = {anchor} ; {client} / {anchor} = {mult} → {result}',
 
   'q.percentOf.prompt': '{p} de {n}',
-  'q.percentOf.path': '10 % de {n} = {anchor} ; × {mult} ≈ {result}',
 
   'q.percentChange.prompt': 'De {from} à {to}, quelle variation ?',
-  'q.percentChange.path': '{to} − {from} = {delta} ; {delta} / {from} ≈ {result}',
 
   'q.growthApply.prompt': '{base} qui croît de {r} par an pendant {y} ans. Quel montant ?',
-  'q.growthApply.path':
-    '{r} × {y} ans ≈ {linear} en linéaire, {compound} en composé → {base} × ce facteur ≈ {result}',
 
   'q.cagr.prompt': 'De {from} à {to} en {y} ans. Quel taux annuel moyen ?',
-  'q.cagr.path': '× {ratio} en {y} ans ; repère : doubler en {y} ans ≈ {r72} → ≈ {result}',
 
   'q.margin.prompt':
     'CA {rev}, marge brute {gm}, coûts fixes {fixed}. Quel résultat d’exploitation ?',
-  'q.margin.path': '{rev} × {gm} ≈ {gross} ; {gross} − {fixed} ≈ {result}',
 
   'q.breakeven.prompt':
     'Coûts fixes {fixed}, marge unitaire {um}. Quel volume pour atteindre l’équilibre ?',
-  'q.breakeven.path': '{fixedK} / {um} ≈ {result}',
 
   'q.perUnit.prompt': '{total} répartis sur {cust} clients. Combien par client ?',
-  'q.perUnit.path': '{total} / {cust} → {num} / {den} ≈ {result}',
 
   'q.weightedMean.prompt2': '2 segments : {w1} à {p1}, {w2} à {p2}. Prix moyen ?',
-  'q.weightedMean.path2': '{c1} + {c2} ≈ {result}',
   'q.weightedMean.prompt3':
     '3 segments : {w1} à {p1}, {w2} à {p2}, {w3} à {p3}. Prix moyen ?',
-  'q.weightedMean.path3': '{c1} + {c2} + {c3} ≈ {result}',
   'q.weightedMean.prompt4':
     '4 segments : {w1} à {p1}, {w2} à {p2}, {w3} à {p3}, {w4} à {p4}. Prix moyen ?',
-  'q.weightedMean.path4': '{c1} + {c2} + {c3} + {c4} ≈ {result}',
 
   'q.fractions.promptToPct': '{f} en pourcentage',
-  'q.fractions.pathToPct': '{f} = {n} × {unit} = {result}',
   'q.fractions.promptToFrac': '{p} en fraction',
-  'q.fractions.pathToFrac': 'Repère : 1/{d} = {unit}. Donc {p} = {result}.',
 
   'q.marketSizing.prompt':
     'Population {pop}, {share} concernés, fréquence d’achat {freq} par an, {price} l’unité. Quelle taille de marché ?',
-  'q.marketSizing.path':
-    '{pop} × {share} ≈ {users} ; × {freq} ≈ {volume} ; × {price} ≈ {result}',
+
+  // — Étapes de raisonnement ————————————————————————————————————
+  'q.magnitudeProduct.s1': 'Simplifier les deux : {a} ≈ {a1}, {b} ≈ {b1}',
+  'q.magnitudeProduct.s1a': 'Simplifier {a} ≈ {a1} ; {b} est déjà commode',
+  'q.magnitudeProduct.s1b': 'Simplifier {b} ≈ {b1} ; {a} est déjà commode',
+  'q.magnitudeProduct.s1none': 'Les deux facteurs sont déjà commodes, rien à arrondir',
+  'q.magnitudeProduct.s2': '{a1} × {b1} = {approx}',
+  'q.magnitudeProduct.s3': 'Rattraper l’arrondi → ≈ {result}',
+
+  'q.marketShare.s1': '1 % du marché, c’est {market} / 100 = {anchor}',
+  'q.marketShare.s2': 'Combien de fois {anchor} tient dans {client} ? {mult} fois',
+  'q.marketShare.s3': 'Autant de points de part de marché : {result}',
+
+  'q.percentOf.s1': '10 % de {n} = {anchor}',
+  'q.percentOf.s2': '{p}, c’est {mult} fois 10 %',
+  'q.percentOf.s3': '{anchor} × {mult} = {result}',
+
+  'q.percentChange.s1': 'Écart absolu : {to} − {from} = {delta}',
+  'q.percentChange.s2': 'Le rapporter à la base : 1 % de {from} = {onePct}',
+  'q.percentChange.s3': '{delta} / {onePct} ≈ {result}',
+
+  'q.growthApply.s1': 'En linéaire, {r} pendant {y} ans ferait {linear}',
+  'q.growthApply.s2': 'La composition ajoute un peu : {compound} au total, soit ×{factor}',
+  'q.growthApply.s3': '{base} × {factor} ≈ {result}',
+
+  'q.cagr.s1': 'De {from} à {to}, c’est ×{ratio}',
+  'q.cagr.s2': 'Repère : doubler en {y} ans demande 72 / {y} ≈ {r72}',
+  'q.cagr.s3.plus': 'Ici ×{ratio}, plus qu’un doublement : donc au-dessus de {r72}, ≈ {result}',
+  'q.cagr.s3.moins': 'Ici ×{ratio}, moins qu’un doublement : donc en dessous de {r72}, ≈ {result}',
+  'q.cagr.s3.environ': 'Ici ×{ratio}, soit environ un doublement : ≈ {result}',
+
+  'q.margin.s1': 'Marge brute : {rev} × {gm} = {gross}',
+  'q.margin.s2': 'Retirer les coûts fixes : {gross} − {fixed}',
+  'q.margin.s3': 'Résultat d’exploitation ≈ {result}',
+
+  'q.breakeven.s1': 'Il faut couvrir {fixedK} de coûts fixes',
+  'q.breakeven.s2': 'Chaque unité vendue en rapporte {um}',
+  'q.breakeven.s3': '{fixedK} / {um} ≈ {result}',
+
+  'q.perUnit.s1': 'Ramener les deux à la même échelle : {num} pour {den}',
+  'q.perUnit.s2': '{num} / {den} ≈ {result}',
+  'q.perUnit.s3': 'Soit {result} par client',
+
+  'q.weightedMean.s1': 'Pondérer chaque segment : {w1} × {p1} = {c1}, et ainsi de suite',
+  'q.weightedMean.s2_2': '{c1} + {c2}',
+  'q.weightedMean.s2_3': '{c1} + {c2} + {c3}',
+  'q.weightedMean.s2_4': '{c1} + {c2} + {c3} + {c4}',
+  'q.weightedMean.s3': 'Prix moyen ≈ {result}',
+
+  'q.fractions.toPct.s1': 'Repère à connaître : 1/{d} = {unit}',
+  'q.fractions.toPct.s2': '{f} = {n} × {unit} = {result}',
+  'q.fractions.toFrac.s1': 'Repère à connaître : 1/{d} = {unit}',
+  'q.fractions.toFrac.s2': '{p} / {unit} = {n}',
+  'q.fractions.toFrac.s3': 'Donc {result}',
+
+  'q.marketSizing.s1': 'Population concernée : {pop} × {share} = {users}',
+  'q.marketSizing.s2': 'Volume annuel : {users} × {freq} = {volume}',
+  'q.marketSizing.s3': 'Valeur : {volume} × {price} ≈ {result}',
+
 } as const
 
 export type Key = keyof typeof fr

@@ -35,14 +35,18 @@ export const breakeven: ExerciseType = {
         key: 'q.breakeven.prompt',
         vars: { fixed: money(fixed, 'M'), um: money(um) },
       },
-      path: {
-        key: 'q.breakeven.path',
-        vars: {
-          fixedK: plain(roundSig(fixed * 1000, 4), 'k'),
-          um: money(um),
-          result: count(roundSig(rawUnits / f, 3), answer.scale),
+      steps: [
+        { key: 'q.breakeven.s1', vars: { fixedK: plain(roundSig(fixed * 1000, 4), 'k') } },
+        { key: 'q.breakeven.s2', vars: { um: money(um) } },
+        {
+          key: 'q.breakeven.s3',
+          vars: {
+            fixedK: plain(roundSig(fixed * 1000, 4), 'k'),
+            um: money(um),
+            result: count(roundSig(rawUnits / f, 3), answer.scale),
+          },
         },
-      },
+      ],
       exact,
       answer,
       tolerance: REL(2),

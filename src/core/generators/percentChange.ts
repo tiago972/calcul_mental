@@ -33,15 +33,24 @@ export const percentChange: ExerciseType = {
       typeId: 'percentChange',
       level,
       prompt: { key: 'q.percentChange.prompt', vars: { from: plain(from), to: plain(to) } },
-      path: {
-        key: 'q.percentChange.path',
-        vars: {
-          to: plain(to),
-          from: plain(from),
-          delta: plain(roundSig(delta, 3)),
-          result: pct(roundSig(exact, 3), 1),
+      steps: [
+        {
+          key: 'q.percentChange.s1',
+          vars: { to: plain(to), from: plain(from), delta: plain(roundSig(delta, 3)) },
         },
-      },
+        {
+          key: 'q.percentChange.s2',
+          vars: { from: plain(from), onePct: plain(roundSig(from / 100, 3)) },
+        },
+        {
+          key: 'q.percentChange.s3',
+          vars: {
+            delta: plain(roundSig(delta, 3)),
+            onePct: plain(roundSig(from / 100, 3)),
+            result: pct(roundSig(exact, 3), 1),
+          },
+        },
+      ],
       exact,
       answer: { style: 'percent', scale: 'unit' },
       tolerance: ABS(1),

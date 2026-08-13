@@ -23,26 +23,50 @@ export const magnitudeProduct: ExerciseType = {
     const { exact, answer } = asAnswer(a * b, 'plain')
     const tolerance = REL(2)
 
-    // Le chemin montre l'arrondi à un chiffre significatif, puis le rattrapage.
-    const a1 = roundSig(a, 1)
-    const b1 = roundSig(b, 1)
+    // Arrondi de travail : un seul chiffre tant que l'écart reste sous 10 %,
+    // deux sinon. À un chiffre, 150 deviendrait 200 — un raccourci qui égare.
+    const arrondiUtile = (x: number) => {
+      const un = roundSig(x, 1)
+      return Math.abs(un - x) / Math.abs(x) <= 0.1 ? un : roundSig(x, 2)
+    }
+    const a1 = arrondiUtile(a)
+    const b1 = arrondiUtile(b)
     const approx = a1 * b1
+
+    // Écrire « 15 ≈ 15 » n'apprend rien : l'étape dit ce qui a vraiment bougé.
+    const bougeA = a1 !== a
+    const bougeB = b1 !== b
+    const cleS1 = bougeA && bougeB ? 's1' : bougeA ? 's1a' : bougeB ? 's1b' : 's1none'
+
+    const calcul = {
+      key: 'q.magnitudeProduct.s2',
+      vars: {
+        a1: plain(a1),
+        b1: plain(b1),
+        approx: plain(roundSig(approx / SCALE_FACTOR[answer.scale], 3), answer.scale),
+      },
+    }
 
     return build({
       typeId: 'magnitudeProduct',
       level,
       prompt: { key: 'q.magnitudeProduct.prompt', vars: { a: plain(a), b: plain(b) } },
-      path: {
-        key: 'q.magnitudeProduct.path',
-        vars: {
-          a: plain(a),
-          b: plain(b),
-          a1: plain(a1),
-          b1: plain(b1),
-          approx: plain(roundSig(approx / SCALE_FACTOR[answer.scale], 3), answer.scale),
-          result: plain(roundSig(exact, 2), answer.scale),
+      steps: [
+        {
+          key: `q.magnitudeProduct.${cleS1}`,
+          vars: { a: plain(a), b: plain(b), a1: plain(a1), b1: plain(b1) },
         },
-      },
+        calcul,
+        // Sans arrondi, le calcul est déjà la réponse : pas d'étape de rattrapage.
+        ...(bougeA || bougeB
+          ? [
+              {
+                key: 'q.magnitudeProduct.s3',
+                vars: { result: plain(roundSig(exact, 2), answer.scale) },
+              },
+            ]
+          : []),
+      ],
       exact,
       answer,
       tolerance,

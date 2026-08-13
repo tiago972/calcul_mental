@@ -31,15 +31,18 @@ export const percentOf: ExerciseType = {
       typeId: 'percentOf',
       level,
       prompt: { key: 'q.percentOf.prompt', vars: { p: pct(p), n: plain(n) } },
-      path: {
-        key: 'q.percentOf.path',
-        vars: {
-          n: plain(n),
-          anchor: plain(roundSig(anchor, 4)),
-          mult: plain(mult),
-          result: plain(roundSig((n * p) / 100 / f, 3), answer.scale),
+      steps: [
+        { key: 'q.percentOf.s1', vars: { n: plain(n), anchor: plain(roundSig(anchor, 4)) } },
+        { key: 'q.percentOf.s2', vars: { p: pct(p), mult: plain(mult) } },
+        {
+          key: 'q.percentOf.s3',
+          vars: {
+            anchor: plain(roundSig(anchor, 4)),
+            mult: plain(mult),
+            result: plain(roundSig((n * p) / 100 / f, 3), answer.scale),
+          },
         },
-      },
+      ],
       exact,
       answer,
       tolerance: REL(2),

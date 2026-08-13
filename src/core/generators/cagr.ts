@@ -37,16 +37,27 @@ export const cagr: ExerciseType = {
         key: 'q.cagr.prompt',
         vars: { from: plain(from), to: plain(to), y: plain(y) },
       },
-      path: {
-        key: 'q.cagr.path',
-        vars: {
-          ratio: plain(roundSig(to / from, 2)),
-          y: plain(y),
-          // Ancrage règle de 72 : le taux qui double en y années.
-          r72: pct(roundSig(72 / y, 2)),
-          result: pct(roundSig(exact, 3), 1),
+      steps: [
+        {
+          key: 'q.cagr.s1',
+          vars: { from: plain(from), to: plain(to), ratio: plain(roundSig(to / from, 2)) },
         },
-      },
+        // Ancrage règle de 72 : le taux qui ferait doubler en y années.
+        { key: 'q.cagr.s2', vars: { y: plain(y), r72: pct(roundSig(72 / y, 2)) } },
+        {
+          key:
+            to / from > 2.15
+              ? 'q.cagr.s3.plus'
+              : to / from < 1.85
+                ? 'q.cagr.s3.moins'
+                : 'q.cagr.s3.environ',
+          vars: {
+            ratio: plain(roundSig(to / from, 2)),
+            r72: pct(roundSig(72 / y, 2)),
+            result: pct(roundSig(exact, 3), 1),
+          },
+        },
+      ],
       exact,
       answer: { style: 'percent', scale: 'unit' },
       tolerance: ABS(1),

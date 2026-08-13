@@ -47,18 +47,32 @@ export const marketSizing: ExerciseType = {
           price: money(price),
         },
       },
-      path: {
-        key: 'q.marketSizing.path',
-        vars: {
-          pop: count(pop, 'M'),
-          share: pct(share),
-          users: count(roundSig(users / 1e6, 3), 'M'),
-          freq: plain(freq),
-          volume: count(roundSig(volume / 1e6, 3), 'M'),
-          price: money(price),
-          result: money(roundSig(raw / f, 3), answer.scale),
+      steps: [
+        {
+          key: 'q.marketSizing.s1',
+          vars: {
+            pop: count(pop, 'M'),
+            share: pct(share),
+            users: count(roundSig(users / 1e6, 3), 'M'),
+          },
         },
-      },
+        {
+          key: 'q.marketSizing.s2',
+          vars: {
+            users: count(roundSig(users / 1e6, 3), 'M'),
+            freq: plain(freq),
+            volume: count(roundSig(volume / 1e6, 3), 'M'),
+          },
+        },
+        {
+          key: 'q.marketSizing.s3',
+          vars: {
+            volume: count(roundSig(volume / 1e6, 3), 'M'),
+            price: money(price),
+            result: money(roundSig(raw / f, 3), answer.scale),
+          },
+        },
+      ],
       exact,
       answer,
       tolerance: REL(5),

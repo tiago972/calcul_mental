@@ -6,7 +6,7 @@ type Spec = {
   typeId: TypeId
   level: Level
   prompt: Phrase
-  path: Phrase
+  steps: Phrase[]
   exact: number
   answer: AnswerSpec
   tolerance: Tolerance

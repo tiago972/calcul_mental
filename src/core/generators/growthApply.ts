@@ -39,17 +39,27 @@ export const growthApply: ExerciseType = {
         key: 'q.growthApply.prompt',
         vars: { base: money(base, 'M'), r: pct(r), y: plain(y) },
       },
-      path: {
-        key: 'q.growthApply.path',
-        vars: {
-          r: pct(r),
-          y: plain(y),
-          linear: pct(roundSig(linear, 2)),
-          compound: pct(roundSig(compound, 2)),
-          base: money(base, 'M'),
-          result: money(roundSig(exact, 3), answer.scale),
+      steps: [
+        {
+          key: 'q.growthApply.s1',
+          vars: { r: pct(r), y: plain(y), linear: pct(roundSig(linear, 2)) },
         },
-      },
+        {
+          key: 'q.growthApply.s2',
+          vars: {
+            compound: pct(roundSig(compound, 2)),
+            factor: plain(roundSig(1 + compound / 100, 3)),
+          },
+        },
+        {
+          key: 'q.growthApply.s3',
+          vars: {
+            base: money(base, 'M'),
+            factor: plain(roundSig(1 + compound / 100, 3)),
+            result: money(roundSig(exact, 3), answer.scale),
+          },
+        },
+      ],
       exact,
       answer,
       tolerance: REL(3),

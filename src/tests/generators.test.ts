@@ -63,12 +63,22 @@ describe.each(TYPES.map((t, i) => [t.id, i] as const))('générateur %s', (id, i
     }
   })
 
+  it('le raisonnement est décomposé en au moins deux étapes', () => {
+    for (const level of LEVELS) {
+      for (const q of sample(i, level)) {
+        expect(q.steps.length).toBeGreaterThanOrEqual(2)
+        expect(q.steps.length).toBeLessThanOrEqual(4)
+        expect(new Set(q.steps.map((st) => st.key)).size).toBe(q.steps.length)
+      }
+    }
+  })
+
   it('toutes les clés existent en français et en anglais', () => {
     const keys = new Set<string>()
     for (const level of LEVELS) {
       for (const q of sample(i, level)) {
         keys.add(q.prompt.key)
-        keys.add(q.path.key)
+        for (const st of q.steps) keys.add(st.key)
       }
     }
     for (const lang of LANGS) {
@@ -88,7 +98,7 @@ describe.each(TYPES.map((t, i) => [t.id, i] as const))('générateur %s', (id, i
     for (const level of LEVELS) {
       for (const q of sample(i, level)) {
         seen(q.prompt)
-        seen(q.path)
+        q.steps.forEach(seen)
       }
     }
   })
@@ -98,7 +108,7 @@ describe.each(TYPES.map((t, i) => [t.id, i] as const))('générateur %s', (id, i
       for (const q of sample(i, level)) {
         for (const lang of LANGS) {
           expect(tPhrase(q.prompt, lang)).not.toMatch(/[{}]/)
-          expect(tPhrase(q.path, lang)).not.toMatch(/[{}]/)
+          for (const st of q.steps) expect(tPhrase(st, lang)).not.toMatch(/[{}]/)
         }
       }
     }
@@ -161,7 +171,8 @@ describe('plages par niveau', () => {
     expect(qs.some((q) => q.prompt.key.endsWith('ToFrac'))).toBe(true)
     const gcd = (a: number, b: number): number => (b === 0 ? a : gcd(b, a % b))
     for (const q of qs) {
-      const f = q.path.vars.f ?? q.path.vars.result
+      const vars = Object.assign({}, ...q.steps.map((st) => st.vars))
+      const f = vars.f ?? vars.result
       if (f?.num != null && f.den != null) expect(gcd(f.num, f.den)).toBe(1)
     }
   })

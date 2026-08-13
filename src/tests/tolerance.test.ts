@@ -6,7 +6,7 @@ const q = (exact: number, tolerance: Tolerance): Question => ({
   typeId: 'magnitudeProduct',
   level: 3,
   prompt: { key: 'x', vars: {} },
-  path: { key: 'x', vars: {} },
+  steps: [{ key: 'x', vars: {} }],
   exact,
   rounded: exact,
   answer: { style: 'plain', scale: 'unit' },

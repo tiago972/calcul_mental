@@ -38,16 +38,17 @@ export const margin: ExerciseType = {
         key: 'q.margin.prompt',
         vars: { rev: money(rev, 'M'), gm: pct(gm), fixed: money(fixed, 'M') },
       },
-      path: {
-        key: 'q.margin.path',
-        vars: {
-          rev: money(rev, 'M'),
-          gm: pct(gm),
-          gross: money(roundSig(gross, 3), 'M'),
-          fixed: money(fixed, 'M'),
-          result: money(roundSig(exact, 3), 'M'),
+      steps: [
+        {
+          key: 'q.margin.s1',
+          vars: { rev: money(rev, 'M'), gm: pct(gm), gross: money(roundSig(gross, 3), 'M') },
         },
-      },
+        {
+          key: 'q.margin.s2',
+          vars: { gross: money(roundSig(gross, 3), 'M'), fixed: money(fixed, 'M') },
+        },
+        { key: 'q.margin.s3', vars: { result: money(roundSig(exact, 3), 'M') } },
+      ],
       exact,
       answer: { style: 'money', scale: 'M' },
       tolerance: REL(2),

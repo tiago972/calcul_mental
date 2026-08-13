@@ -58,7 +58,11 @@ export const weightedMean: ExerciseType = {
       typeId: 'weightedMean',
       level,
       prompt: { key: `q.weightedMean.prompt${c.segments}`, vars },
-      path: { key: `q.weightedMean.path${c.segments}`, vars },
+      steps: [
+        { key: 'q.weightedMean.s1', vars: { w1: vars.w1, p1: vars.p1, c1: vars.c1 } },
+        { key: `q.weightedMean.s2_${c.segments}`, vars },
+        { key: 'q.weightedMean.s3', vars: { result: vars.result } },
+      ],
       exact,
       answer: { style: 'money', scale: 'unit' },
       tolerance: REL(2),

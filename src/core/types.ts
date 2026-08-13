@@ -72,8 +72,12 @@ export interface Question {
   level: Level
   /** Énoncé. */
   prompt: Phrase
-  /** Chemin de calcul en une ligne, affiché après réponse. */
-  path: Phrase
+  /**
+   * Le raisonnement décomposé, affiché après réponse. Deux à quatre étapes :
+   * la technique qu'on veut installer, pas seulement le résultat. La dernière
+   * étape conclut.
+   */
+  steps: Phrase[]
   /** Valeur exacte, exprimée dans l'unité de `answer`. */
   exact: number
   /** La réponse « attendue » d'un consultant : celle qu'on pose en 20 secondes. */

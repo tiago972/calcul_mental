@@ -49,15 +49,13 @@ export const fractions: ExerciseType = {
         typeId: 'fractions',
         level,
         prompt: { key: 'q.fractions.promptToPct', vars: { f: frac(n, d) } },
-        path: {
-          key: 'q.fractions.pathToPct',
-          vars: {
-            f: frac(n, d),
-            n: plain(n),
-            unit: pct(unit),
-            result: pct(roundSig(exact, 4), 1),
+        steps: [
+          { key: 'q.fractions.toPct.s1', vars: { d: plain(d), unit: pct(unit) } },
+          {
+            key: 'q.fractions.toPct.s2',
+            vars: { f: frac(n, d), n: plain(n), unit: pct(unit), result: pct(roundSig(exact, 4), 1) },
           },
-        },
+        ],
         exact,
         answer: { style: 'percent', scale: 'unit' },
         tolerance: EXACT(1),
@@ -71,15 +69,14 @@ export const fractions: ExerciseType = {
         key: 'q.fractions.promptToFrac',
         vars: { p: pct(roundSig(value * 100, 4)) },
       },
-      path: {
-        key: 'q.fractions.pathToFrac',
-        vars: {
-          d: plain(d),
-          unit: pct(unit),
-          p: pct(roundSig(value * 100, 4)),
-          result: frac(n, d),
+      steps: [
+        { key: 'q.fractions.toFrac.s1', vars: { d: plain(d), unit: pct(unit) } },
+        {
+          key: 'q.fractions.toFrac.s2',
+          vars: { p: pct(roundSig(value * 100, 4)), unit: pct(unit), n: plain(n) },
         },
-      },
+        { key: 'q.fractions.toFrac.s3', vars: { result: frac(n, d) } },
+      ],
       exact: value,
       // Le retour affiche « 5/8 », pas 0,625.
       answerDisplay: frac(n, d),

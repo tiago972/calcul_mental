@@ -37,17 +37,27 @@ export const perUnit: ExerciseType = {
         key: 'q.perUnit.prompt',
         vars: { total: money(total, c.totalScale), cust: count(cust, 'k') },
       },
-      path: {
-        key: 'q.perUnit.path',
-        vars: {
-          total: money(total, c.totalScale),
-          cust: count(cust, 'k'),
-          // Même magnitude des deux côtés : on ne divise que les mantisses.
-          num: plain(roundSig(total * (SCALE_FACTOR[c.totalScale] / 1e6), 4)),
-          den: plain(cust),
-          result: money(roundSig(raw / f, 3), answer.scale),
+      steps: [
+        // Même magnitude des deux côtés : on ne divise plus que les mantisses.
+        {
+          key: 'q.perUnit.s1',
+          vars: {
+            total: money(total, c.totalScale),
+            num: plain(roundSig(total * (SCALE_FACTOR[c.totalScale] / 1e6), 4)),
+            cust: count(cust, 'k'),
+            den: plain(cust),
+          },
         },
-      },
+        {
+          key: 'q.perUnit.s2',
+          vars: {
+            num: plain(roundSig(total * (SCALE_FACTOR[c.totalScale] / 1e6), 4)),
+            den: plain(cust),
+            result: money(roundSig(raw / f, 3), answer.scale),
+          },
+        },
+        { key: 'q.perUnit.s3', vars: { result: money(roundSig(raw / f, 3), answer.scale) } },
+      ],
       exact,
       answer,
       tolerance: REL(2),

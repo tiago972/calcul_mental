@@ -36,17 +36,22 @@ export const marketShare: ExerciseType = {
         key: 'q.marketShare.prompt',
         vars: { market: money(market, 'M'), client: money(client, 'M') },
       },
-      path: {
-        key: 'q.marketShare.path',
-        vars: {
-          // Ancrage sur 1 % du marché : on compte combien de fois il tient.
-          market: money(market, 'M'),
-          anchor: money(roundSig(market / 100, 3), 'M'),
-          client: money(client, 'M'),
-          mult: plain(roundSig(client / (market / 100), 3)),
-          result: pct(roundSig(exact, 3), 1),
+      // Ancrage sur 1 % du marché : on compte combien de fois il tient.
+      steps: [
+        {
+          key: 'q.marketShare.s1',
+          vars: { market: money(market, 'M'), anchor: money(roundSig(market / 100, 3), 'M') },
         },
-      },
+        {
+          key: 'q.marketShare.s2',
+          vars: {
+            client: money(client, 'M'),
+            anchor: money(roundSig(market / 100, 3), 'M'),
+            mult: plain(roundSig(client / (market / 100), 3)),
+          },
+        },
+        { key: 'q.marketShare.s3', vars: { result: pct(roundSig(exact, 3), 1) } },
+      ],
       exact,
       answer: { style: 'percent', scale: 'unit' },
       tolerance: ABS(0.5),

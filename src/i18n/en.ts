@@ -30,7 +30,7 @@ export const en: Record<Key, string> = {
   'feedback.skipped': 'Skipped',
   'feedback.expected': 'Expected answer',
   'feedback.exact': 'Exact value',
-  'feedback.path': 'Path',
+  'feedback.path': 'Reasoning',
   'feedback.time': 'Time',
   'feedback.next': 'Tap to continue',
 
@@ -123,52 +123,94 @@ export const en: Record<Key, string> = {
 
   // — Prompts and calculation paths —————————————————————————————
   'q.magnitudeProduct.prompt': '{a} × {b}',
-  'q.magnitudeProduct.path': '{a} × {b} ≈ {a1} × {b1} = {approx}, adjusted ≈ {result}',
 
   'q.marketShare.prompt':
     'In a {market} market, the client makes {client}. What is its market share?',
-  'q.marketShare.path': '1% of {market} = {anchor}; {client} / {anchor} = {mult} → {result}',
 
   'q.percentOf.prompt': '{p} of {n}',
-  'q.percentOf.path': '10% of {n} = {anchor}; × {mult} ≈ {result}',
 
   'q.percentChange.prompt': 'From {from} to {to}, what is the change?',
-  'q.percentChange.path': '{to} − {from} = {delta}; {delta} / {from} ≈ {result}',
 
   'q.growthApply.prompt': '{base} growing {r} a year for {y} years. What amount?',
-  'q.growthApply.path':
-    '{r} × {y} years ≈ {linear} linear, {compound} compounded → {base} × that factor ≈ {result}',
 
   'q.cagr.prompt': 'From {from} to {to} in {y} years. What annual rate?',
-  'q.cagr.path': '× {ratio} over {y} years; anchor: doubling in {y} years ≈ {r72} → ≈ {result}',
 
   'q.margin.prompt':
     'Revenue {rev}, gross margin {gm}, fixed costs {fixed}. What operating profit?',
-  'q.margin.path': '{rev} × {gm} ≈ {gross}; {gross} − {fixed} ≈ {result}',
 
   'q.breakeven.prompt':
     'Fixed costs {fixed}, unit margin {um}. What volume to break even?',
-  'q.breakeven.path': '{fixedK} / {um} ≈ {result}',
 
   'q.perUnit.prompt': '{total} spread over {cust} customers. How much per customer?',
-  'q.perUnit.path': '{total} / {cust} → {num} / {den} ≈ {result}',
 
   'q.weightedMean.prompt2': '2 segments: {w1} at {p1}, {w2} at {p2}. Average price?',
-  'q.weightedMean.path2': '{c1} + {c2} ≈ {result}',
   'q.weightedMean.prompt3':
     '3 segments: {w1} at {p1}, {w2} at {p2}, {w3} at {p3}. Average price?',
-  'q.weightedMean.path3': '{c1} + {c2} + {c3} ≈ {result}',
   'q.weightedMean.prompt4':
     '4 segments: {w1} at {p1}, {w2} at {p2}, {w3} at {p3}, {w4} at {p4}. Average price?',
-  'q.weightedMean.path4': '{c1} + {c2} + {c3} + {c4} ≈ {result}',
 
   'q.fractions.promptToPct': '{f} as a percentage',
-  'q.fractions.pathToPct': '{f} = {n} × {unit} = {result}',
   'q.fractions.promptToFrac': '{p} as a fraction',
-  'q.fractions.pathToFrac': 'Anchor: 1/{d} = {unit}. So {p} = {result}.',
 
   'q.marketSizing.prompt':
     'Population {pop}, {share} concerned, purchase frequency {freq} a year, {price} per unit. Market size?',
-  'q.marketSizing.path':
-    '{pop} × {share} ≈ {users}; × {freq} ≈ {volume}; × {price} ≈ {result}',
+
+  // — Reasoning steps ——————————————————————————————————————————
+  'q.magnitudeProduct.s1': 'Simplify both: {a} ≈ {a1}, {b} ≈ {b1}',
+  'q.magnitudeProduct.s1a': 'Simplify {a} ≈ {a1}; {b} is already convenient',
+  'q.magnitudeProduct.s1b': 'Simplify {b} ≈ {b1}; {a} is already convenient',
+  'q.magnitudeProduct.s1none': 'Both factors are already convenient, nothing to round',
+  'q.magnitudeProduct.s2': '{a1} × {b1} = {approx}',
+  'q.magnitudeProduct.s3': 'Correct for the rounding → ≈ {result}',
+
+  'q.marketShare.s1': '1% of the market is {market} / 100 = {anchor}',
+  'q.marketShare.s2': 'How many times does {anchor} fit into {client}? {mult} times',
+  'q.marketShare.s3': 'That many points of market share: {result}',
+
+  'q.percentOf.s1': '10% of {n} = {anchor}',
+  'q.percentOf.s2': '{p} is {mult} times 10%',
+  'q.percentOf.s3': '{anchor} × {mult} = {result}',
+
+  'q.percentChange.s1': 'Absolute gap: {to} − {from} = {delta}',
+  'q.percentChange.s2': 'Relate it to the base: 1% of {from} = {onePct}',
+  'q.percentChange.s3': '{delta} / {onePct} ≈ {result}',
+
+  'q.growthApply.s1': 'Linearly, {r} for {y} years would give {linear}',
+  'q.growthApply.s2': 'Compounding adds a little: {compound} in total, so ×{factor}',
+  'q.growthApply.s3': '{base} × {factor} ≈ {result}',
+
+  'q.cagr.s1': 'From {from} to {to} is ×{ratio}',
+  'q.cagr.s2': 'Anchor: doubling in {y} years needs 72 / {y} ≈ {r72}',
+  'q.cagr.s3.plus': 'Here ×{ratio}, more than a doubling: so above {r72}, ≈ {result}',
+  'q.cagr.s3.moins': 'Here ×{ratio}, less than a doubling: so below {r72}, ≈ {result}',
+  'q.cagr.s3.environ': 'Here ×{ratio}, about a doubling: ≈ {result}',
+
+  'q.margin.s1': 'Gross margin: {rev} × {gm} = {gross}',
+  'q.margin.s2': 'Remove fixed costs: {gross} − {fixed}',
+  'q.margin.s3': 'Operating profit ≈ {result}',
+
+  'q.breakeven.s1': 'You must cover {fixedK} of fixed costs',
+  'q.breakeven.s2': 'Each unit sold brings in {um}',
+  'q.breakeven.s3': '{fixedK} / {um} ≈ {result}',
+
+  'q.perUnit.s1': 'Bring both to the same scale: {num} over {den}',
+  'q.perUnit.s2': '{num} / {den} ≈ {result}',
+  'q.perUnit.s3': 'That is {result} per customer',
+
+  'q.weightedMean.s1': 'Weight each segment: {w1} × {p1} = {c1}, and so on',
+  'q.weightedMean.s2_2': '{c1} + {c2}',
+  'q.weightedMean.s2_3': '{c1} + {c2} + {c3}',
+  'q.weightedMean.s2_4': '{c1} + {c2} + {c3} + {c4}',
+  'q.weightedMean.s3': 'Average price ≈ {result}',
+
+  'q.fractions.toPct.s1': 'Anchor worth knowing: 1/{d} = {unit}',
+  'q.fractions.toPct.s2': '{f} = {n} × {unit} = {result}',
+  'q.fractions.toFrac.s1': 'Anchor worth knowing: 1/{d} = {unit}',
+  'q.fractions.toFrac.s2': '{p} / {unit} = {n}',
+  'q.fractions.toFrac.s3': 'So {result}',
+
+  'q.marketSizing.s1': 'Population concerned: {pop} × {share} = {users}',
+  'q.marketSizing.s2': 'Annual volume: {users} × {freq} = {volume}',
+  'q.marketSizing.s3': 'Value: {volume} × {price} ≈ {result}',
+
 }
