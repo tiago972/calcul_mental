@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    background: #fff;
+  }
+  body {
+    @apply bg-white text-ink font-sans antialiased;
+    /* Utilisable debout, d'une main : rien ne doit rebondir sous le pouce. */
+    overscroll-behavior: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  button {
+    touch-action: manipulation;
+    user-select: none;
+  }
+}
+
+@layer components {
+  /* 100dvh n'existe qu'à partir d'iOS 16.4 : sans le repli en vh, la hauteur
+     est nulle sur un iPhone plus ancien et le centrage s'effondre. */
+  .screen {
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+  .safe-b {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .safe-t {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+  /* Le seul bouton plein de l'application. */
+  .btn {
+    @apply w-full rounded-xl bg-accent px-5 py-4 text-center text-base font-medium text-white
+           active:opacity-80 disabled:opacity-30;
+  }
+  .btn-ghost {
+    @apply w-full rounded-xl border border-hair px-5 py-3 text-center text-base text-muted
+           active:bg-gray-50;
+  }
+  .key {
+    @apply flex h-14 items-center justify-center rounded-xl border border-hair bg-white
+           text-2xl tabular-nums text-ink active:bg-accent-soft;
+  }
+}
