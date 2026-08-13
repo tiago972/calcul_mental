@@ -167,7 +167,7 @@ export function Session({ onDone }: { onDone: (attempts: Attempt[]) => void }) {
           {secondsLeft(phase.until, now, PAUSE_MS)}
         </div>
         <p className="mt-6 text-center text-sm text-muted">{t('session.pause.hint', lang)}</p>
-        <button className="mt-10 text-sm text-accent" onClick={startNextBlock}>
+        <button className="tap mt-10 px-4 text-sm text-accent" onClick={startNextBlock}>
           {t('session.pause.skip', lang)}
         </button>
       </div>
@@ -180,11 +180,11 @@ export function Session({ onDone }: { onDone: (attempts: Attempt[]) => void }) {
   const speaking = phase.k === 'speak'
 
   return (
-    <div className="mx-auto flex screen max-w-md flex-col safe-t safe-b">
+    <div className="screen-fixed mx-auto flex max-w-md flex-col safe-t safe-b">
       <BlockBar leftMs={Math.max(0, blockEndsAt - now)} totalMs={BLOCK_MS} />
 
       <header className="flex items-center justify-between px-5 pt-3 text-xs text-muted">
-        <button onClick={() => stop(attempts)} className="text-muted">
+        <button onClick={() => stop(attempts)} className="tap -mx-2 px-2 text-muted">
           {t('session.quit', lang)}
         </button>
         <span>{t('session.block', lang, { n: block + 1, total: BLOCKS })}</span>
@@ -195,7 +195,7 @@ export function Session({ onDone }: { onDone: (attempts: Attempt[]) => void }) {
         <Feedback res={phase.res} onNext={advance} />
       ) : (
         <>
-          <main className="flex flex-1 flex-col items-center justify-center px-5 text-center">
+          <main className="flex min-h-0 flex-1 flex-col items-center justify-center overflow-y-auto px-5 text-center">
             <p className="text-[1.7rem] font-light leading-snug text-ink">
               {tPhrase(q.prompt, lang)}
             </p>
@@ -212,7 +212,7 @@ export function Session({ onDone }: { onDone: (attempts: Attempt[]) => void }) {
             )}
           </main>
 
-          <div className="px-5 pb-4">
+          <div className="shrink-0 px-5 pb-4">
             <div className="mb-3 flex items-baseline justify-between border-b border-hair pb-2">
               <span className="text-3xl tabular-nums text-ink">{input || ' '}</span>
               {!speaking && <QuestionTimer elapsedMs={elapsed} targetMs={targetMs} />}
@@ -251,7 +251,14 @@ function Feedback({ res, onNext }: { res: Result; onNext: () => void }) {
     : formatAnswer(q.rounded, q.answer, lang)
 
   return (
-    <div className="flex flex-1 flex-col justify-center px-5" onClick={onNext}>
+    /* Un vrai <button> et non un <div onClick> : iOS ne fait pas remonter les
+       clics depuis un élément non interactif, le tap pour passer à la question
+       suivante y était purement et simplement perdu. */
+    <button
+      type="button"
+      className="flex min-h-0 w-full flex-1 flex-col justify-center overflow-y-auto px-5 text-left"
+      onClick={onNext}
+    >
       <div className={`text-sm font-medium ${res.ok && !res.late ? 'text-accent' : 'text-ink'}`}>
         {t(verdict, lang)}
       </div>
@@ -274,6 +281,6 @@ function Feedback({ res, onNext }: { res: Result; onNext: () => void }) {
       </p>
 
       <p className="mt-8 text-xs text-muted">{t('feedback.next', lang)}</p>
-    </div>
+    </button>
   )
 }

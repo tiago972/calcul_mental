@@ -51,7 +51,7 @@ export function Stats({ onBack }: { onBack: () => void }) {
     <div className="mx-auto screen max-w-md px-5 pb-10 safe-t safe-b">
       <header className="flex items-center justify-between pt-6">
         <h1 className="text-sm text-muted">{t('stats.title', lang)}</h1>
-        <button className="text-sm text-accent" onClick={onBack}>
+        <button className="tap -mx-2 px-2 text-sm text-accent" onClick={onBack}>
           {t('settings.back', lang)}
         </button>
       </header>

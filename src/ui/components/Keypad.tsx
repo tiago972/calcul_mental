@@ -99,7 +99,7 @@ export function Keypad(p: KeypadProps) {
         </button>
       </div>
 
-      <button type="button" className="mt-2 w-full py-3 text-sm text-muted" onClick={p.onSkip}>
+      <button type="button" className="mt-2 w-full py-4 text-sm text-muted" onClick={p.onSkip}>
         {p.skipLabel}
       </button>
     </div>

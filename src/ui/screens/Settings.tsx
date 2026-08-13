@@ -22,19 +22,27 @@ function Row({ label, help, children }: { label: string; help?: string; children
 
 function Toggle({ on, onChange }: { on: boolean; onChange: (v: boolean) => void }) {
   return (
+    /* Le bouton fait 44 pt, la pastille n'en dessine que 28 : la zone tactile
+       est réelle plutôt qu'étendue par un pseudo-élément, que l'empilement des
+       rangées suivantes recouvrait par en dessous. La marge négative rend au
+       voisinage la hauteur que le bouton prend en trop. */
     <button
       role="switch"
       aria-checked={on}
       onClick={() => onChange(!on)}
-      className={`h-7 w-12 shrink-0 rounded-full border transition-colors ${
-        on ? 'border-accent bg-accent' : 'border-hair bg-white'
-      }`}
+      className="tap -my-2 shrink-0"
     >
       <span
-        className={`block h-5 w-5 rounded-full bg-white shadow-sm transition-transform ${
-          on ? 'translate-x-6' : 'translate-x-1'
+        className={`flex h-7 w-12 items-center rounded-full border transition-colors ${
+          on ? 'border-accent bg-accent' : 'border-hair bg-white'
         }`}
-      />
+      >
+        <span
+          className={`block h-5 w-5 rounded-full bg-white shadow-sm transition-transform ${
+            on ? 'translate-x-6' : 'translate-x-1'
+          }`}
+        />
+      </span>
     </button>
   )
 }
@@ -53,7 +61,7 @@ export function Settings({ onBack }: { onBack: () => void }) {
     <div className="mx-auto screen max-w-md px-5 pb-10 safe-t safe-b">
       <header className="flex items-center justify-between pt-6">
         <h1 className="text-sm text-muted">{t('settings.title', lang)}</h1>
-        <button className="text-sm text-accent" onClick={onBack}>
+        <button className="tap -mx-2 px-2 text-sm text-accent" onClick={onBack}>
           {t('settings.back', lang)}
         </button>
       </header>
@@ -65,7 +73,7 @@ export function Settings({ onBack }: { onBack: () => void }) {
               <button
                 key={l}
                 onClick={() => dispatch({ type: 'settings', patch: { lang: l } })}
-                className={`rounded-lg px-3 py-1.5 text-sm ${
+                className={`tap rounded-lg px-3.5 text-sm ${
                   l === lang ? 'bg-accent text-white' : 'border border-hair text-muted'
                 }`}
               >
@@ -81,7 +89,7 @@ export function Settings({ onBack }: { onBack: () => void }) {
               <button
                 key={ms}
                 onClick={() => dispatch({ type: 'settings', patch: { targetMs: ms } })}
-                className={`whitespace-nowrap rounded-lg px-2.5 py-1.5 text-sm ${
+                className={`tap whitespace-nowrap rounded-lg px-3 text-sm ${
                   ms === s.targetMs ? 'bg-accent text-white' : 'border border-hair text-muted'
                 }`}
               >
@@ -97,7 +105,7 @@ export function Settings({ onBack }: { onBack: () => void }) {
               <button
                 key={ms}
                 onClick={() => dispatch({ type: 'settings', patch: { feedbackMs: ms } })}
-                className={`whitespace-nowrap rounded-lg px-2.5 py-1.5 text-sm ${
+                className={`tap whitespace-nowrap rounded-lg px-3 text-sm ${
                   ms === s.feedbackMs ? 'bg-accent text-white' : 'border border-hair text-muted'
                 }`}
               >

@@ -3,6 +3,13 @@ import { createRoot } from 'react-dom/client'
 import App from './App'
 import './index.css'
 
+/*
+ * Sans écouteur tactile enregistré, iOS n'applique jamais :active — les
+ * boutons ne réagissent alors visuellement à rien, puisque la surbrillance
+ * native est désactivée. Cet écouteur vide suffit à la rétablir.
+ */
+document.addEventListener('touchstart', () => {}, { passive: true })
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <App />

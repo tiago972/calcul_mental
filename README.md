@@ -46,6 +46,25 @@ chaque type toutes les deux séances.
 
 Au clavier : les chiffres saisissent, `Entrée` valide, `Espace` passe.
 
+## Tactile
+
+L'écran de séance a une hauteur figée et ne défile jamais : l'énoncé défile
+dans sa propre zone si besoin, le pavé numérique ne bouge pas. Une page qui
+défile, même d'un pixel, fait glisser le doigt pendant l'appui — et iOS annule
+alors le clic, ce qui rend le pavé capricieux.
+
+Toutes les commandes font au moins 44 pt, la cible minimale d'Apple. Là où le
+dessin est plus fin, comme les interrupteurs, c'est le bouton qui fait 44 pt et
+la marge négative rend la hauteur au voisinage.
+
+La correction se ferme par un tap sur un vrai `<button>` : iOS ne fait pas
+remonter les clics depuis un élément non interactif, un `<div onClick>` y était
+simplement ignoré.
+
+Un écouteur `touchstart` vide est enregistré dans `main.tsx` : sans lui iOS
+n'applique jamais `:active`, et comme la surbrillance native est désactivée les
+boutons ne réagiraient visuellement à rien.
+
 ## Architecture
 
 ```

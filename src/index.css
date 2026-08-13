@@ -6,12 +6,17 @@
   html {
     -webkit-text-size-adjust: 100%;
     background: #fff;
+    /* Supprime le délai et le zoom au double-tap d'iOS partout, pas seulement
+       sur les boutons. Le zoom à deux doigts, lui, reste disponible. */
+    touch-action: manipulation;
   }
   body {
     @apply bg-white text-ink font-sans antialiased;
     /* Utilisable debout, d'une main : rien ne doit rebondir sous le pouce. */
     overscroll-behavior: none;
     -webkit-tap-highlight-color: transparent;
+    /* Pas de loupe ni de menu contextuel sur appui long. */
+    -webkit-touch-callout: none;
   }
   button {
     touch-action: manipulation;
@@ -20,11 +25,28 @@
 }
 
 @layer components {
+  /* 44 pt : la cible minimale d'Apple. Sur les commandes dessinées plus fines
+     que cela, on agrandit la zone sans toucher au dessin. */
+  .tap {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
   /* 100dvh n'existe qu'à partir d'iOS 16.4 : sans le repli en vh, la hauteur
      est nulle sur un iPhone plus ancien et le centrage s'effondre. */
   .screen {
     min-height: 100vh;
     min-height: 100dvh;
+  }
+  /* Écran de séance : hauteur figée, jamais de défilement de page. Une page qui
+     défile, même d'un pixel, fait glisser le doigt pendant le tap — et iOS
+     annule alors le clic. C'est le pavé numérique qui devient inutilisable. */
+  .screen-fixed {
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
   }
   .safe-b {
     padding-bottom: env(safe-area-inset-bottom, 0px);
