@@ -57,6 +57,14 @@ Toutes les commandes font au moins 44 pt, la cible minimale d'Apple. Là où le
 dessin est plus fin, comme les interrupteurs, c'est le bouton qui fait 44 pt et
 la marge négative rend la hauteur au voisinage.
 
+Le pavé numérique et « Valider » se déclenchent à la **pose** du doigt
+(`pointerdown`), pas au relâchement : iOS annule le clic dès que le doigt
+glisse un peu entre les deux, ce qui est systématique debout dans les
+transports. « Je ne sais pas » reste au relâchement — la question est perdue,
+l'appui doit être délibéré, et le bouton est juste sous Valider. Les clics sans
+pointeur (`detail === 0`, donc venus du clavier) restent pris en compte, sans
+compter deux fois.
+
 La correction se ferme par un tap sur un vrai `<button>` : iOS ne fait pas
 remonter les clics depuis un élément non interactif, un `<div onClick>` y était
 simplement ignoré.

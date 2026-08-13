@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import type React from 'react'
 import type { Lang, NumStyle } from '@/core/types'
 
 const DECIMAL: Record<Lang, string> = { fr: ',', en: '.' }
@@ -59,13 +60,20 @@ export function Keypad(p: KeypadProps) {
     return () => window.removeEventListener('keydown', onKey)
   })
 
+  /**
+   * Déclenche à la pose du doigt, pas au relâchement. iOS annule le clic dès
+   * que le doigt glisse un peu entre les deux — ce qui est systématique debout
+   * dans les transports, et donnait un pavé qui « rate » des touches.
+   * `detail === 0` isole les clics venus du clavier, qui n'ont pas de pointeur.
+   */
+  const presse = (k: string) => !p.disabled && p.onKey(k)
+  const tactile = (k: string) => ({
+    onPointerDown: () => presse(k),
+    onClick: (e: React.MouseEvent) => e.detail === 0 && presse(k),
+  })
+
   const Key = ({ k, label }: { k: string; label?: string }) => (
-    <button
-      type="button"
-      className="key"
-      onClick={() => !p.disabled && p.onKey(k)}
-      aria-label={label ?? k}
-    >
+    <button type="button" className="key" {...tactile(k)} aria-label={label ?? k}>
       {label ?? k}
     </button>
   )
@@ -82,17 +90,14 @@ export function Keypad(p: KeypadProps) {
       </div>
 
       <div className="mt-2 grid grid-cols-3 gap-2">
-        <button
-          type="button"
-          className="key col-span-1 text-base"
-          onClick={() => !p.disabled && p.onKey('000')}
-        >
+        <button type="button" className="key col-span-1 text-base" {...tactile('000')}>
           000
         </button>
         <button
           type="button"
           className="col-span-2 rounded-xl bg-accent px-4 text-base font-medium text-white active:opacity-80 disabled:opacity-30"
-          onClick={p.onSubmit}
+          onPointerDown={() => !p.disabled && p.value !== '' && p.onSubmit()}
+          onClick={(e) => e.detail === 0 && p.onSubmit()}
           disabled={p.disabled || p.value === ''}
         >
           {p.submitLabel}
